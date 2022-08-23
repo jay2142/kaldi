@@ -1,3 +1,5 @@
+# Written by Jacob Yatvitskiy (jay2142)
+
 from scipy.io import wavfile
 from scipy.signal import lfilter, gammatone, hilbert
 from scipy.fft import dct

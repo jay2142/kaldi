@@ -1,14 +1,6 @@
-#!/usr/bin/env bash
-# Copyright      2017   David Snyder
-#                2017   Johns Hopkins University (Author: Daniel Garcia-Romero)
-#                2017   Johns Hopkins University (Author: Daniel Povey)
-#
-# Copied from egs/sre16/v1/local/nnet3/xvector/tuning/run_xvector_1a.sh (commit e082c17d4a8f8a791428ae4d9f7ceb776aef3f0b).
-#
-# Apache 2.0.
-
-# This script trains a DNN similar to the recipe described in
-# http://www.danielpovey.com/files/2018_icassp_xvectors.pdf
+# Loosely based on the original run_xvector.sh
+# Edited by Jacob Yatvitskiy
+# jay2142
 
 . ./cmd.sh
 set -e
