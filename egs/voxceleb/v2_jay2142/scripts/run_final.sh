@@ -99,7 +99,7 @@ if [ $stage -le 3 ]; then
 fi
 
 # Stages 6 through 8 are handled in run_xvector.sh
-local/nnet3/xvector/run_xvector_full.sh --stage $stage --train-stage -1 \
+scripts/run_xvector_full.sh --stage $stage --train-stage -1 \
   --data data/train_final_combined_no_sil --nnet-dir $nnet_dir \
   --egs-dir $nnet_dir/egs
 
