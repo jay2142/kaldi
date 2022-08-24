@@ -1,0 +1,18 @@
+diff -ru v2/cmd.sh v2_jay2142/cmd.sh
+--- v2/cmd.sh	2022-08-23 09:59:47.822528842 +0000
++++ v2_jay2142/cmd.sh	2022-08-23 09:59:47.822528842 +0000
+@@ -10,6 +10,6 @@
+ # conf/queue.conf in http://kaldi-asr.org/doc/queue.html for more information,
+ # or search for the string 'default_config' in utils/queue.pl or utils/slurm.pl.
+ 
+-export train_cmd="queue.pl --mem 4G"
++export train_cmd="run.pl"
+ 
+ 
+Only in v2_jay2142: data
+Only in v2_jay2142: decode_final.sh
+Only in v2_jay2142: exp
+Only in v2_jay2142: prep_final.sh
+Only in v2: run.sh
+Only in v2_jay2142: run_final.sh
+Only in v2_jay2142: scripts
