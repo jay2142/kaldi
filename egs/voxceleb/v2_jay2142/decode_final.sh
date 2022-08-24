@@ -5,7 +5,6 @@
 . ./cmd.sh
 . ./path.sh
 set -e
-set -x
 mfccdir=`pwd`/mfcc
 vaddir=`pwd`/mfcc
 

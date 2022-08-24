@@ -27,12 +27,25 @@ scipy, librosa, numpy, kaldiio
 These can all be installed with pip.
 
 Executables to test the code:
-voxceleb/v2_jay2142/decode_final.sh runs the final decoding stage. Specifically, it uses the PLDA model to
+All important scripts are in the voxceleb/v2_jay2142 directory.
+decode_final.sh runs the final decoding stage. Specifically, it uses the PLDA model to
 make predictions about the test x-vectors, and evaluates the accuracy of these predictions.
 I have included a barebones data directory and a small exp directory so that the script can find
 the files it needs. 
-This script can be run by calling:
-./decode_final.sh 
+This script can be run by calling ./decode_final.sh from within the v2_jay2142 directory.
+
+Main scripts that run everything:
+All important scripts are in the voxceleb/v2_jay2142 directory.
+prep_final.sh computes the MHEC and MFCC features. The MHEC computation takes place in the
+background using nohup. The consequence of this is that computation continues even after
+the prep_final.sh script exits. Hence, we must wait until "ps -ef | grep make_mhec" returns nothing
+before proceeding to the next script. This takes about 8 hours with 64 CPUs.
+
+run_final.sh combines that MHEC and MFCC features and runs the rest of the procedure. 
+Specifically, it performs PCA, does more preprocessing, trains the DNN, extracts x-vectors,
+learns a PLDA model, and computes results. 
+
+
 
 
 
