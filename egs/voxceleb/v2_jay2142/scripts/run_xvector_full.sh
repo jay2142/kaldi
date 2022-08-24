@@ -1,4 +1,5 @@
 # Almost exactly the same as the original run_xvector.sh. I just set use-gpu=wait
+# You may need to call "nvidia-smi -c 3" to set exclusive mode
 # Edited by Jacob Yatvitskiy
 # jay2142
 
