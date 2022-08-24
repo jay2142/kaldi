@@ -25,7 +25,9 @@ must call my make_mhec.py script. This script requires Python 3.7 as well as the
 following libraries:
 scipy=1.7.3, librosa=0.9.1, numpy=1.21.6, kaldiio=2.17.2
 These can all be installed with pip.
-I am also including a requirements.txt file generated with pip freeze, in order to make the installation easier.
+I am also including a requirements.txt file in voxceleb/v2_jay2142 generated with pip freeze, 
+in order to make the installation easier. It may contain more libraries than strictly necessary.
+
 
 Executables to test the code:
 All important scripts are in the voxceleb/v2_jay2142 directory.
