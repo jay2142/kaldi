@@ -11,8 +11,9 @@ from kaldiio import ReadHelper, WriteHelper
 
 def preprocess(signal, sample_rate, alpha=0.95):
     """
-    pre-process a wav file
-    alpha determines the pre-emphasis
+    Accepts a signal (np array read from a way file)
+    Preprocesses it by adding pre-emphasis (based on alpha) and normalizing to [-1, 1] range.
+    Returns the preprocessed signal
     """
     signal = np.squeeze(signal)
 
@@ -23,7 +24,7 @@ def preprocess(signal, sample_rate, alpha=0.95):
 
 def construct_gammatone_filters(sample_rate=16000):
     """
-    I create 10 gammatone filters with center frequencies ranging from 200 to 1100 inclusive.
+    Creates 10 gammatone filters with center frequencies ranging from 200 to 1100 inclusive.
     """
     gammatone_filters = []
     filter_order = 4
@@ -34,8 +35,10 @@ def construct_gammatone_filters(sample_rate=16000):
 
 def convert_to_gammatone(signal, sample_rate = 16000):
     """
-    I apply the 10 gammatone filters, creating a 10-channel signal. 
-    The hilbert envelope is computed for each gammatone filter.
+    Accepts a np array representing the signal (assumes that it has already been preprocessed)
+    Constructs and applies 10 gammatone filters, creating a 10-channel signal. 
+    The hilbert envelope is computed for each gammatone filter output.
+    Returns the hilbert envelope
     """
     filters = construct_gammatone_filters(sample_rate=sample_rate)
     filter_outputs = []
@@ -49,7 +52,8 @@ def convert_to_gammatone(signal, sample_rate = 16000):
 
 def smoothen_envelopes(envelopes, f_c = 20, sample_rate = 16000):
     '''
-    I smooth the envelopes following the equation in the MHEC paper
+    Accepts a np array of hilbert envelopes
+    Smooths the hilbert envelopes following the equation in the MHEC paper
     f_c is cut-off frequency, which is 20 as defined in the paper
     '''
     eta = np.exp(-2 * np.pi * f_c / sample_rate)
@@ -60,7 +64,8 @@ def smoothen_envelopes(envelopes, f_c = 20, sample_rate = 16000):
     return smooth_envelopes
 def create_frames(envelopes, frame_length_ms=0.025, skip_length_ms = 0.010, sample_rate = 16000):
     """
-    I split the MHEC data into Hamming-windowed frames, with frame and skip lengths as dictated in the MHEC paper.
+    Accepts smoothed hilbert envelopes.
+    Splits the MHEC data into Hamming-windowed frames, with frame and skip lengths as dictated in the MHEC paper.
     """
     frame_length = int(sample_rate * frame_length_ms)
     skip_length = int(sample_rate * skip_length_ms)
@@ -71,7 +76,7 @@ def create_frames(envelopes, frame_length_ms=0.025, skip_length_ms = 0.010, samp
 
 def compute_sample_means(hamming_frames):
     """
-    I compute the sample mean of each frame
+    Computes the sample mean of each Hamming-windowed frame
     """
     return np.mean(hamming_frames, axis=2)
 
@@ -79,7 +84,8 @@ def compute_sample_means(hamming_frames):
 
 def compute_mhec(signal, sample_rate):
     """
-    Calls all the above functions in the appropriate sequence
+    Accepts a raw signal from a wav file.
+    Calls all the above functions in the appropriate sequence.
     """
     preprocessed_signal = preprocess(signal=signal, sample_rate=sample_rate, alpha=0)
     envelopes = convert_to_gammatone(preprocessed_signal, sample_rate)
@@ -91,6 +97,9 @@ def compute_mhec(signal, sample_rate):
     return mhec
 
 def compute_mhec_from_file(wav_path):
+    """
+    Accepts the name of a wav file. Reads the wav file and calls the above functions to compute the MHEC
+    """
     sample_rate, signal = wavfile.read(wav_path)
     signal = signal / 32768
     return compute_mhec(signal, sample_rate)
