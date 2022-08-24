@@ -17,28 +17,7 @@ voxceleb2_root=export/voxceleb2
 nnet_dir=exp/xvector_nnet_1a
 musan_root=export/musan
 
-stage=10
-
-
-if [ $stage -le 10 ]; then
-  # Compute the mean vector for centering the evaluation xvectors.
-  $train_cmd $nnet_dir/xvectors_train_final/log/compute_mean.log \
-    ivector-mean scp:$nnet_dir/xvectors_train_final/xvector.scp \
-    $nnet_dir/xvectors_train_final/mean.vec || exit 1;
-
-  # This script uses LDA to decrease the dimensionality prior to PLDA.
-  lda_dim=200
-  $train_cmd $nnet_dir/xvectors_train_final/log/lda.log \
-    ivector-compute-lda --total-covariance-factor=0.0 --dim=$lda_dim \
-    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train_final/xvector.scp ark:- |" \
-    ark:data/train/utt2spk $nnet_dir/xvectors_train_final/transform.mat || exit 1;
-
-  # Train the PLDA model.
-  $train_cmd $nnet_dir/xvectors_train_final/log/plda.log \
-    ivector-compute-plda ark:data/train/spk2utt \
-    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train_final/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train_final/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
-    $nnet_dir/xvectors_train_final/plda || exit 1;
-fi
+stage=11
 
 if [ $stage -le 11 ]; then
   $train_cmd exp/scores/log/voxceleb1_test_final_scoring.log \
