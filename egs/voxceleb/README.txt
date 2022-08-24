@@ -1,13 +1,38 @@
- 
- This is a Kaldi recipe for speaker verification using the VoxCeleb1 and
- VoxCeleb2 corpora.  See http://www.robots.ox.ac.uk/~vgg/data/voxceleb/ and 
- http://www.robots.ox.ac.uk/~vgg/data/voxceleb2/ for additional details and
- information on how to obtain them.
 
- Note: This recipe requires ffmpeg to be installed and its location included
- in $PATH
+Jacob Yatvitskiy
+jay2142
+08/24/2022
 
- The subdirectories "v1" and so on are different speaker recognition
- recipes. The recipe in v1 demonstrates a standard approach using a
- full-covariance GMM-UBM, iVectors, and a PLDA backend.  The example 
- in v2 demonstrates DNN speaker embeddings with a PLDA backend.
+Speaker Recognition on VoxCeleb with Mean
+Hilbert Coefficients and MFCC
+
+Summary:
+
+My goal is to evaluate the effectiveness of certain
+modifications to the VoxCeleb V2 speaker recognition formula
+presently implemented by Kaldi. Specifically, I replace the MFCC
+feature presently used in the Kaldi formula with a combined
+MFCC / Mean Hilbert Envelope Coefficient (MHEC) feature.
+PCA is used for dimensionality reduction on this combined
+feature. My implementation is in the v2_jay2142 subdirectory. 
+To evaluate the results, I compare the Equal Error
+Rate and Detection Cost Function Minimum metrics with those achieved by 
+the implementation in the v2 directory (as well as with other approaches: see my paper)
+
+Tools used / needed to run the code:
+Python 3.7: The prep_final.sh script, which is used to compute features from the raw data,
+must call my make_mhec.py script. This script requires Python 3.7 as well as the 
+following libraries:
+scipy, librosa, numpy, kaldiio
+These can all be installed with pip.
+
+Executables to test the code:
+voxceleb/v2_jay2142/decode_final.sh runs the final decoding stage. Specifically, it uses the PLDA model to
+make predictions about the test x-vectors, and evaluates the accuracy of these predictions.
+I have included a barebones data directory and a small exp directory so that the script can find
+the files it needs. 
+This script can be run by calling:
+./decode_final.sh 
+
+
+
