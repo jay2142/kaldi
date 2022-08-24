@@ -1,4 +1,4 @@
-# Loosely based on the original run_xvector.sh
+# Almost exactly the same as the original run_xvector.sh. I just set use-gpu=wait
 # Edited by Jacob Yatvitskiy
 # jay2142
 
