@@ -23,8 +23,9 @@ Tools used / needed to run the code:
 Python 3.7: The prep_final.sh script, which is used to compute features from the raw data,
 must call my make_mhec.py script. This script requires Python 3.7 as well as the 
 following libraries:
-scipy, librosa, numpy, kaldiio
+scipy=1.7.3, librosa=0.9.1, numpy=1.21.6, kaldiio=2.17.2
 These can all be installed with pip.
+I am also including a requirements.txt file generated with pip freeze, in order to make the installation easier.
 
 Executables to test the code:
 All important scripts are in the voxceleb/v2_jay2142 directory.
@@ -42,7 +43,7 @@ minDCF(p-target=0.001): 0.6442
 Main scripts that run everything:
 All important scripts are in the voxceleb/v2_jay2142 directory.
 prep_final.sh computes the MHEC and MFCC features. The MHEC computation takes place in the
-background using nohup. The consequence of this is that computation continues even after
+background using nohup (kaldi's job system doesn't support Python). The consequence of this is that computation continues even after
 the prep_final.sh script exits. Hence, we must wait until "ps -ef | grep make_mhec" returns nothing
 before proceeding to the next script. This takes about 8 hours with 64 CPUs.
 Run as follows: "./prep_final.sh"
@@ -57,6 +58,8 @@ exclusive mode for the DNN training step.
 I used the VoxCeleb dataset. Specifically, I obtained it (alongside some other code & resources)
 from the Professor's folder here:
 https://console.cloud.google.com/storage/browser/voxceleb_trained/voxceleb
+
+A significant portion of my work was in implementing the MHEC algorithm. My implementation can be found in voxceleb/v2_jay2142/scripts/make_mhec.py
 
 
 
